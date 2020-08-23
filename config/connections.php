@@ -1,9 +1,9 @@
 <?php
 namespace DB_CONNECT;
 DEFINE('HOST', 'localhost');
-DEFINE('DB_NAME', 'alhuda');
-DEFINE('USERNAME', 'root');
-DEFINE('PASSWORD', 'allahw');
+DEFINE('DB_NAME', '');
+DEFINE('USERNAME', '');
+DEFINE('PASSWORD', '');
 
 use PDO as pdo;
 class Connection {
