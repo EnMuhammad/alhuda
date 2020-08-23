@@ -18,6 +18,8 @@ include "pages/login.php";
         include "pages/home.php";
     }else if(isset($_GET['food'])){
         include "pages/services.php";
+    }else if(isset($_GET['checkout'])){
+        include "pages/checkout.php";
     }
     require "pages/footer.php";
 }

@@ -17,7 +17,10 @@ if(isset($_GET['loginCheck'])){
            echo '1';
        }
     }
-}else if(isset($_GET['addItem'])){
+}else if(isset($_GET['logout'])){
+    $_SESSION['username_session'] ='';
+    unset($_SESSION['username_session']);
+} else if(isset($_GET['addItem'])){
     if(
         isset($_POST['name'])
         && isset($_POST['price'])

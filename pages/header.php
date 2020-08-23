@@ -62,30 +62,41 @@
 </div>
 <nav class="navbar navbar-expand-lg navbar-dark ftco_navbar bg-dark ftco-navbar-light" id="ftco-navbar">
     <div class="container">
-        <a id="logo" href="index.html"><img src="https://alhudaservices.com/wp-content/uploads/2019/08/alhuda-logo-front-latest.png" alt="Al-Huda" id="logo" data-height-percentage="54" data-actual-width="1080" data-actual-height="519"></a>
+        <a id="logo" href="?home"><img src="https://alhudaservices.com/wp-content/uploads/2019/08/alhuda-logo-front-latest.png" alt="Al-Huda" id="logo" data-height-percentage="54" data-actual-width="1080" data-actual-height="519"></a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#ftco-nav" aria-controls="ftco-nav" aria-expanded="false" aria-label="Toggle navigation">
             <span class="oi oi-menu"></span> Menu
         </button>
 
         <div class="collapse navbar-collapse" id="ftco-nav">
             <ul class="navbar-nav ml-auto">
-                <li class="nav-item active"><a href="index.html" class="nav-link">Home</a></li>
+                <li class="nav-item active"><a href="?home" class="nav-link">Home</a></li>
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                         Services
                     </a>
                     <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                        <a class="dropdown-item" href="food-delivery.html">Food Delivery</a>
+                        <a class="dropdown-item" href="?food">Food Delivery</a>
                         <a class="dropdown-item" href="catering.html">Catering</a>
                         <a class="dropdown-item" href="wedding.html">Wedding packages</a>
                         <a class="dropdown-item" href="equipment-rental.html">Equipment Rental</a>
-
                     </div>
                 </li>
                 <li class="nav-item"><a href="promotions.html" class="nav-link">Promotions</a></li>
                 <li class="nav-item"><a href="about.html" class="nav-link">About</a></li>
                 <li class="nav-item"><a href="contact.html" class="nav-link">Contact</a></li>
                 <li class="nav-item"><a href="gallery.html" class="nav-link">Gallery</a></li>
+                <?php
+                if(isset($_SESSION['username_session'])){
+                    ?>
+                    <li class="nav-item"><a href="#"  class="nav-link logout">Logout</a></li>
+                <?php
+                }else{
+                    ?>
+                    <li class="nav-item"><a href="?login"  class="nav-link">Login</a></li>
+                <?php
+                }
+                ?>
+
 
 
 

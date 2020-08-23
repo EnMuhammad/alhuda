@@ -98,6 +98,15 @@
 <script src="js/google-map.js"></script>
 <script src="js/main.js"></script>
 <script src="https://use.fontawesome.com/abf0dc368a.js"></script>
-
+<script>
+    $(function () {
+        $('.logout').on('click',function (e) {
+            e.preventDefault();
+            $.post('index.php?action&logout',function () {
+                window.location.reload();
+            })
+        })
+    })
+</script>
 </body>
 </html>
