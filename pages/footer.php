@@ -105,8 +105,16 @@
             $.post('index.php?action&logout',function () {
                 window.location.reload();
             })
-        })
-    })
+        });
+
+    });
+    function a(i,x) {
+        $(x).html('<i class="fa fa-spin fa-spinner"></i>');
+        $.post('index.php?action&addToCart&id='+i,function () {
+            $(x).html('Order now');
+            alert('Added to Cart');
+        });
+    }
 </script>
 </body>
 </html>

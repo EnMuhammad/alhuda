@@ -1,13 +1,24 @@
 <?php
+
+//use DB_CONNECT\Connection;
+
 if(isset($_SESSION['username_session'])){
     $admin = true;
 }else{
     $admin = false;
 }
-
+$db = DB_CONNECT\Connection::getInstance();
+$data = $db->prepare("SELECT * FROM `items` ORDER BY `id` DESC");
+$data->execute();
+$all_items = $data->fetchAll(PDO::FETCH_ASSOC);
 ?>
 
-
+<div class="cartBasket" style="position: fixed;bottom: 35px;left: 45px;z-index: 100;">
+    <a href="?checkout" class="btn btn-danger btn-lg">
+    <i class="fa fa-shopping-cart"></i> Checkout
+        (<?=count($_SESSION['cart']) ?>)
+    </a>
+</div>
 
 <section class="ftco-section">
     <div class="container-fluid px-4">
@@ -33,6 +44,17 @@ if(isset($_SESSION['username_session'])){
                             <input type="text" name="price" class="form-control">
                         </div>
                         <div class="form-group">
+                            <label>Type</label>
+                            <select  name="item_type" class="form-control">
+                                <option value="breakfast">Breakfast</option>
+                                <option value="lunch">Lunch</option>
+                                <option value="dinner">Dinner</option>
+                                <option value="desserts">Desserts</option>
+                                <option value="wine_card">Wine Card</option>
+                                <option value="drinks">Drinks</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
                             <label>About</label>
                             <textarea name="about" class="form-control"></textarea>
                         </div>
@@ -54,154 +76,89 @@ if(isset($_SESSION['username_session'])){
                 <div class="heading-menu text-center ftco-animate">
                     <h3>Breakfast</h3>
                 </div>
-                <div class="menus d-flex ftco-animate">
-                    <div class="menu-img img" style="background-image: url(images/breakfast-1.jpg);"></div>
-                    <div class="text">
-                        <div class="d-flex">
-                            <div class="one-half">
-                                <h3>Grilled Beef with potatoes</h3>
-                            </div>
-                            <div class="one-forth">
-                                <span class="price">$29</span>
-                            </div>
-                        </div>
-                        <p><span>Meat</span>, <span>Potatoes</span>, <span>Rice</span>, <span>Tomatoe</span></p>
-                        <P><a href="#" class="btn btn-primary p-3 px-xl-4 py-xl-3">Order now </a></P>
-                    </div>
-                </div>
-                <div class="menus d-flex ftco-animate">
-                    <div class="menu-img img" style="background-image: url(images/breakfast-2.jpg);"></div>
-                    <div class="text">
-                        <div class="d-flex">
-                            <div class="one-half">
-                                <h3>Grilled Crab with Onion</h3>
-                            </div>
-                            <div class="one-forth">
-                                <span class="price">$29</span>
+                <?php
+                foreach ($all_items as $t=>$br){
+                    if($br['item_type'] == 'breakfast') {
+                        ?>
+                        <div class="menus d-flex ftco-animate">
+                            <div class="menu-img img" style="background-image: url(images/breakfast-1.jpg);"></div>
+                            <div class="text">
+                                <div class="d-flex">
+                                    <div class="one-half">
+                                        <h3><?=$br['name'] ?></h3>
+                                    </div>
+                                    <div class="one-forth">
+                                        <span class="price"><?=$br['price'] ?>$</span>
+                                    </div>
+                                </div>
+                                <p><?=$br['about'] ?></p>
+                                <P><a href="javascript:;" onclick="a(<?=$br['id'] ?>,this)" class="btn btn-primary p-3 px-xl-4 py-xl-3">Order now </a></P>
                             </div>
                         </div>
-                        <p><span>Meat</span>, <span>Potatoes</span>, <span>Rice</span>, <span>Tomatoe</span></p>
-                        <P><a href="#" class="btn btn-primary p-3 px-xl-4 py-xl-3">Order now </a></P>
-                    </div>
-                </div>
-                <div class="menus d-flex ftco-animate">
-                    <div class="menu-img img" style="background-image: url(images/breakfast-3.jpg);"></div>
-                    <div class="text">
-                        <div class="d-flex">
-                            <div class="one-half">
-                                <h3>Grilled Crab with Onion</h3>
-                            </div>
-                            <div class="one-forth">
-                                <span class="price">$29</span>
-                            </div>
-                        </div>
-                        <p><span>Meat</span>, <span>Potatoes</span>, <span>Rice</span>, <span>Tomatoe</span></p>
-                        <P><a href="#" class="btn btn-primary p-3 px-xl-4 py-xl-3">Order now </a></P>
-                    </div>
-                </div>
+                        <?php
+                    }
+                }
+                ?>
+
+
             </div>
 
             <div class="col-md-6 col-lg-4 menu-wrap">
                 <div class="heading-menu text-center ftco-animate">
                     <h3>Lunch</h3>
                 </div>
-                <div class="menus d-flex ftco-animate">
-                    <div class="menu-img img" style="background-image: url(images/lunch-1.jpg);"></div>
-                    <div class="text">
-                        <div class="d-flex">
-                            <div class="one-half">
-                                <h3>Grilled Beef with potatoes</h3>
-                            </div>
-                            <div class="one-forth">
-                                <span class="price">$29</span>
-                            </div>
-                        </div>
-                        <p><span>Meat</span>, <span>Potatoes</span>, <span>Rice</span>, <span>Tomatoe</span></p>
-                        <P><a href="#" class="btn btn-primary p-3 px-xl-4 py-xl-3">Order now </a></P>
-                    </div>
-                </div>
-                <div class="menus d-flex ftco-animate">
-                    <div class="menu-img img" style="background-image: url(images/lunch-2.jpg);"></div>
-                    <div class="text">
-                        <div class="d-flex">
-                            <div class="one-half">
-                                <h3>Grilled Crab with Onion</h3>
-                            </div>
-                            <div class="one-forth">
-                                <span class="price">$29</span>
+                <?php
+                foreach ($all_items as $t=>$br){
+                    if($br['item_type'] == 'lunch') {
+                        ?>
+                        <div class="menus d-flex ftco-animate">
+                            <div class="menu-img img" style="background-image: url(images/breakfast-1.jpg);"></div>
+                            <div class="text">
+                                <div class="d-flex">
+                                    <div class="one-half">
+                                        <h3><?=$br['name'] ?></h3>
+                                    </div>
+                                    <div class="one-forth">
+                                        <span class="price"><?=$br['price'] ?>$</span>
+                                    </div>
+                                </div>
+                                <p><?=$br['about'] ?></p>
+                                <P><a href="javascript:;" onclick="a(<?=$br['id'] ?>,this)" class="btn btn-primary p-3 px-xl-4 py-xl-3">Order now </a></P>
                             </div>
                         </div>
-                        <p><span>Meat</span>, <span>Potatoes</span>, <span>Rice</span>, <span>Tomatoe</span></p>
-                        <P><a href="#" class="btn btn-primary p-3 px-xl-4 py-xl-3">Order now </a></P>
-                    </div>
-                </div>
-                <div class="menus d-flex ftco-animate">
-                    <div class="menu-img img" style="background-image: url(images/lunch-3.jpg);"></div>
-                    <div class="text">
-                        <div class="d-flex">
-                            <div class="one-half">
-                                <h3>Grilled Crab with Onion</h3>
-                            </div>
-                            <div class="one-forth">
-                                <span class="price">$29</span>
-                            </div>
-                        </div>
-                        <p><span>Meat</span>, <span>Potatoes</span>, <span>Rice</span>, <span>Tomatoe</span></p>
-                        <P><a href="#" class="btn btn-primary p-3 px-xl-4 py-xl-3">Order now </a></P>
-                    </div>
-                </div>
+                        <?php
+                    }
+                }
+                ?>
             </div>
 
             <div class="col-md-6 col-lg-4 menu-wrap">
                 <div class="heading-menu text-center ftco-animate">
                     <h3>Dinner</h3>
                 </div>
-                <div class="menus d-flex ftco-animate">
-                    <div class="menu-img img" style="background-image: url(images/dinner-1.jpg);"></div>
-                    <div class="text">
-                        <div class="d-flex">
-                            <div class="one-half">
-                                <h3>Grilled Beef with potatoes</h3>
-                            </div>
-                            <div class="one-forth">
-                                <span class="price">$29</span>
-                            </div>
-                        </div>
-                        <p><span>Meat</span>, <span>Potatoes</span>, <span>Rice</span>, <span>Tomatoe</span></p>
-                        <P><a href="#" class="btn btn-primary p-3 px-xl-4 py-xl-3">Order now </a></P>
-                    </div>
-                </div>
-                <div class="menus d-flex ftco-animate">
-                    <div class="menu-img img" style="background-image: url(images/dinner-2.jpg);"></div>
-                    <div class="text">
-                        <div class="d-flex">
-                            <div class="one-half">
-                                <h3>Grilled Crab with Onion</h3>
-                            </div>
-                            <div class="one-forth">
-                                <span class="price">$29</span>
+                <?php
+                foreach ($all_items as $t=>$br){
+                    if($br['item_type'] == 'dinner') {
+                        ?>
+                        <div class="menus d-flex ftco-animate">
+                            <div class="menu-img img" style="background-image: url(images/breakfast-1.jpg);"></div>
+                            <div class="text">
+                                <div class="d-flex">
+                                    <div class="one-half">
+                                        <h3><?=$br['name'] ?></h3>
+                                    </div>
+                                    <div class="one-forth">
+                                        <span class="price"><?=$br['price'] ?>$</span>
+                                    </div>
+                                </div>
+                                <p><?=$br['about'] ?></p>
+                                <P><a href="javascript:;" onclick="a(<?=$br['id'] ?>,this)" class="btn btn-primary p-3 px-xl-4 py-xl-3">Order now </a></P>
                             </div>
                         </div>
-                        <p><span>Meat</span>, <span>Potatoes</span>, <span>Rice</span>, <span>Tomatoe</span></p>
-                        <P><a href="#" class="btn btn-primary p-3 px-xl-4 py-xl-3">Order now </a></P>
-
-                    </div>
-                </div>
-                <div class="menus d-flex ftco-animate">
-                    <div class="menu-img img" style="background-image: url(images/dinner-3.jpg);"></div>
-                    <div class="text">
-                        <div class="d-flex">
-                            <div class="one-half">
-                                <h3>Grilled Crab with Onion</h3>
-                            </div>
-                            <div class="one-forth">
-                                <span class="price">$29</span>
-                            </div>
-                        </div>
-                        <p><span>Meat</span>, <span>Potatoes</span>, <span>Rice</span>, <span>Tomatoe</span></p>
-                        <P><a href="#" class="btn btn-primary p-3 px-xl-4 py-xl-3">Order now </a></P>
-                    </div>
-                </div>
+                        <?php
+                    }
+                }
+                ?>
             </div>
 
 
@@ -209,154 +166,87 @@ if(isset($_SESSION['username_session'])){
                 <div class="heading-menu text-center ftco-animate">
                     <h3>Desserts</h3>
                 </div>
-                <div class="menus d-flex ftco-animate">
-                    <div class="menu-img img" style="background-image: url(images/dessert-1.jpg);"></div>
-                    <div class="text">
-                        <div class="d-flex">
-                            <div class="one-half">
-                                <h3>Grilled Beef with potatoes</h3>
-                            </div>
-                            <div class="one-forth">
-                                <span class="price">$29</span>
-                            </div>
-                        </div>
-                        <p><span>Meat</span>, <span>Potatoes</span>, <span>Rice</span>, <span>Tomatoe</span></p>
-                        <P><a href="#" class="btn btn-primary p-3 px-xl-4 py-xl-3">Order now </a></P>
-                    </div>
-                </div>
-                <div class="menus d-flex ftco-animate">
-                    <div class="menu-img img" style="background-image: url(images/dessert-2.jpg);"></div>
-                    <div class="text">
-                        <div class="d-flex">
-                            <div class="one-half">
-                                <h3>Grilled Crab with Onion</h3>
-                            </div>
-                            <div class="one-forth">
-                                <span class="price">$29</span>
+                <?php
+                foreach ($all_items as $t=>$br){
+                    if($br['item_type'] == 'desserts') {
+                        ?>
+                        <div class="menus d-flex ftco-animate">
+                            <div class="menu-img img" style="background-image: url(images/breakfast-1.jpg);"></div>
+                            <div class="text">
+                                <div class="d-flex">
+                                    <div class="one-half">
+                                        <h3><?=$br['name'] ?></h3>
+                                    </div>
+                                    <div class="one-forth">
+                                        <span class="price"><?=$br['price'] ?>$</span>
+                                    </div>
+                                </div>
+                                <p><?=$br['about'] ?></p>
+                                <P><a href="javascript:;" onclick="a(<?=$br['id'] ?>,this)" class="btn btn-primary p-3 px-xl-4 py-xl-3">Order now </a></P>
                             </div>
                         </div>
-                        <p><span>Meat</span>, <span>Potatoes</span>, <span>Rice</span>, <span>Tomatoe</span></p>
-                        <P><a href="#" class="btn btn-primary p-3 px-xl-4 py-xl-3">Order now </a></P>
-                    </div>
-                </div>
-                <div class="menus d-flex ftco-animate">
-                    <div class="menu-img img" style="background-image: url(images/dessert-3.jpg);"></div>
-                    <div class="text">
-                        <div class="d-flex">
-                            <div class="one-half">
-                                <h3>Grilled Crab with Onion</h3>
-                            </div>
-                            <div class="one-forth">
-                                <span class="price">$29</span>
-                            </div>
-                        </div>
-                        <p><span>Meat</span>, <span>Potatoes</span>, <span>Rice</span>, <span>Tomatoe</span></p>
-                        <P><a href="#" class="btn btn-primary p-3 px-xl-4 py-xl-3">Order now </a></P>
-
-                    </div>
-                </div>
+                        <?php
+                    }
+                }
+                ?>
             </div>
 
             <div class="col-md-6 col-lg-4 menu-wrap">
                 <div class="heading-menu text-center ftco-animate">
                     <h3>Wine Card</h3>
                 </div>
-                <div class="menus d-flex ftco-animate">
-                    <div class="menu-img img" style="background-image: url(images/wine-1.jpg);"></div>
-                    <div class="text">
-                        <div class="d-flex">
-                            <div class="one-half">
-                                <h3>Grilled Beef with potatoes</h3>
-                            </div>
-                            <div class="one-forth">
-                                <span class="price">$29</span>
-                            </div>
-                        </div>
-                        <p><span>Meat</span>, <span>Potatoes</span>, <span>Rice</span>, <span>Tomatoe</span></p>
-                        <P><a href="#" class="btn btn-primary p-3 px-xl-4 py-xl-3">Order now </a></P>
-                    </div>
-                </div>
-                <div class="menus d-flex ftco-animate">
-                    <div class="menu-img img" style="background-image: url(images/wine-2.jpg);"></div>
-                    <div class="text">
-                        <div class="d-flex">
-                            <div class="one-half">
-                                <h3>Grilled Crab with Onion</h3>
-                            </div>
-                            <div class="one-forth">
-                                <span class="price">$29</span>
+                <?php
+                foreach ($all_items as $t=>$br){
+                    if($br['item_type'] == 'wine_card') {
+                        ?>
+                        <div class="menus d-flex ftco-animate">
+                            <div class="menu-img img" style="background-image: url(images/breakfast-1.jpg);"></div>
+                            <div class="text">
+                                <div class="d-flex">
+                                    <div class="one-half">
+                                        <h3><?=$br['name'] ?></h3>
+                                    </div>
+                                    <div class="one-forth">
+                                        <span class="price"><?=$br['price'] ?>$</span>
+                                    </div>
+                                </div>
+                                <p><?=$br['about'] ?></p>
+                                <P><a href="javascript:;" onclick="a(<?=$br['id'] ?>,this)" class="btn btn-primary p-3 px-xl-4 py-xl-3">Order now </a></P>
                             </div>
                         </div>
-                        <p><span>Meat</span>, <span>Potatoes</span>, <span>Rice</span>, <span>Tomatoe</span></p>
-                        <P><a href="#" class="btn btn-primary p-3 px-xl-4 py-xl-3">Order now </a></P>
-                    </div>
-                </div>
-                <div class="menus d-flex ftco-animate">
-                    <div class="menu-img img" style="background-image: url(images/wine-3.jpg);"></div>
-                    <div class="text">
-                        <div class="d-flex">
-                            <div class="one-half">
-                                <h3>Grilled Crab with Onion</h3>
-                            </div>
-                            <div class="one-forth">
-                                <span class="price">$29</span>
-                            </div>
-                        </div>
-                        <p><span>Meat</span>, <span>Potatoes</span>, <span>Rice</span>, <span>Tomatoe</span></p>
-                        <P><a href="#" class="btn btn-primary p-3 px-xl-4 py-xl-3">Order now </a></P>
-                    </div>
-                </div>
+                        <?php
+                    }
+                }
+                ?>
             </div>
 
             <div class="col-md-6 col-lg-4 menu-wrap">
                 <div class="heading-menu text-center ftco-animate">
                     <h3>Drinks</h3>
                 </div>
-                <div class="menus d-flex ftco-animate">
-                    <div class="menu-img img" style="background-image: url(images/drink-1.jpg);"></div>
-                    <div class="text">
-                        <div class="d-flex">
-                            <div class="one-half">
-                                <h3>Grilled Beef with potatoes</h3>
-                            </div>
-                            <div class="one-forth">
-                                <span class="price">$29</span>
-                            </div>
-                        </div>
-                        <p><span>Meat</span>, <span>Potatoes</span>, <span>Rice</span>, <span>Tomatoe</span></p>
-                        <P><a href="#" class="btn btn-primary p-3 px-xl-4 py-xl-3">Order now </a></P>
-                    </div>
-                </div>
-                <div class="menus d-flex ftco-animate">
-                    <div class="menu-img img" style="background-image: url(images/drink-2.jpg);"></div>
-                    <div class="text">
-                        <div class="d-flex">
-                            <div class="one-half">
-                                <h3>Grilled Crab with Onion</h3>
-                            </div>
-                            <div class="one-forth">
-                                <span class="price">$29</span>
+                <?php
+                foreach ($all_items as $t=>$br){
+                    if($br['item_type'] == 'drinks') {
+                        ?>
+                        <div class="menus d-flex ftco-animate">
+                            <div class="menu-img img" style="background-image: url(images/breakfast-1.jpg);"></div>
+                            <div class="text">
+                                <div class="d-flex">
+                                    <div class="one-half">
+                                        <h3><?=$br['name'] ?></h3>
+                                    </div>
+                                    <div class="one-forth">
+                                        <span class="price"><?=$br['price'] ?>$</span>
+                                    </div>
+                                </div>
+                                <p><?=$br['about'] ?></p>
+                                <p><a href="javascript:;" onclick="a(<?=$br['id'] ?>,this)" class="btn btn-primary p-3 px-xl-4 py-xl-3">Order now </a></p>
                             </div>
                         </div>
-                        <p><span>Meat</span>, <span>Potatoes</span>, <span>Rice</span>, <span>Tomatoe</span></p>
-                        <P><a href="#" class="btn btn-primary p-3 px-xl-4 py-xl-3">Order now </a></P>
-                    </div>
-                </div>
-                <div class="menus d-flex ftco-animate">
-                    <div class="menu-img img" style="background-image: url(images/drink-3.jpg);"></div>
-                    <div class="text">
-                        <div class="d-flex">
-                            <div class="one-half">
-                                <h3>Grilled Crab with Onion</h3>
-                            </div>
-                            <div class="one-forth">
-                                <span class="price">$29</span>
-                            </div>
-                        </div>
-                        <p><span>Meat</span>, <span>Potatoes</span>, <span>Rice</span>, <span>Tomatoe</span></p>
-                        <P><a href="#" class="btn btn-primary p-3 px-xl-4 py-xl-3">Order now </a></P>
-                    </div>
-                </div>
+                        <?php
+                    }
+                }
+                ?>
             </div>
         </div>
     </div>
@@ -371,60 +261,7 @@ if(isset($_SESSION['username_session'])){
                     <span class="subheading">Contact us</span>
                     <h2 class="mb-4">Send a Message</h2>
                 </div>
-                <!--<form action="#">
-                  <div class="row">
-                    <div class="col-md-6">
-                      <div class="form-group">
-                        <label for="">Name</label>
-                        <input type="text" class="form-control" placeholder="Your Name">
-                      </div>
-                    </div>
-                    <div class="col-md-6">
-                      <div class="form-group">
-                        <label for="">Email</label>
-                        <input type="text" class="form-control" placeholder="Your Email">
-                      </div>
-                    </div>
-                    <div class="col-md-6">
-                      <div class="form-group">
-                        <label for="">Phone</label>
-                        <input type="text" class="form-control" placeholder="Phone">
-                      </div>
-                    </div>
-                    <div class="col-md-6">
-                      <div class="form-group">
-                        <label for="">Phone</label>
-                        <input type="text" class="form-control" id="book_date" placeholder="Date">
-                      </div>
-                    </div>
-                    <div class="col-md-6">
-                      <div class="form-group">
-                        <label for="">Time</label>
-                        <input type="text" class="form-control" id="book_time" placeholder="Time">
-                      </div>
-                    </div>
-                    <div class="col-md-6">
-                      <div class="form-group">
-                        <label for="">Person</label>
-                        <div class="select-wrap one-third">
-                          <div class="icon"><span class="ion-ios-arrow-down"></span></div>
-                          <select name="" id="" class="form-control">
-                            <option value="">Person</option>
-                            <option value="">1</option>
-                            <option value="">2</option>
-                            <option value="">3</option>
-                            <option value="">4+</option>
-                          </select>
-                        </div>
-                      </div>
-                    </div>
-                    <div class="col-md-12 mt-3">
-                      <div class="form-group">
-                        <input type="submit" value="Make a Reservation" class="btn btn-primary py-3 px-5">
-                      </div>
-                    </div>
-                  </div>
-                </form>-->
+
                 <form action="#">
                     <div class="form-group">
                         <input type="text" class="form-control" placeholder="Your Name">
