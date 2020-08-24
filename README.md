@@ -9,11 +9,11 @@ How to Install:
 - click on created database "alhuda", and then click on import.
 - select the sql file located on c:/xampp/htdocs/Alhuda1/database sql/alhuda.sql
 - click go.
-- now open "config/connections.php".
- update values with:
- DEFINE('DB_NAME', 'alhuda');
- DEFINE('USERNAME', 'root');
- DEFINE('PASSWORD', '');
+- now open "config/connections.php" and 
+   update values with:
+  - DEFINE('DB_NAME', 'alhuda');
+  - DEFINE('USERNAME', 'root');
+  - DEFINE('PASSWORD', '');
 
 Update index.php
 set your folder name 
