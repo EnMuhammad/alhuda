@@ -20,3 +20,7 @@ set your folder name
 define('HOME_FOLDER','Alhuda1');
 
 - open browser and go to http://localhost/Alhuda1
+
+- admin Login:
+  - username: admin
+  - password:admin
