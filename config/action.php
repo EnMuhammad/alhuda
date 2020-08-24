@@ -47,7 +47,33 @@ if(isset($_GET['loginCheck'])){
             echo 'error upload';
         }
     }
-}else if(isset($_GET['addToCart']) && isset($_GET['id'])){
+}else if(isset($_GET['place_order'])){
+    if(
+        isset($_POST['c_fname'])
+        && isset($_POST['c_lname'])
+        && isset($_POST['c_address'])
+        && isset($_POST['c_address_2'])
+        && isset($_POST['c_state_country'])
+        && isset($_POST['c_postal_zip'])
+        && isset($_POST['c_order_notes'])
+    ){
+            $db = DB_CONNECT\Connection::getInstance();
+            $data = $db->prepare("INSERT INTO `orders` (full_name,address,country,zip,notes,products) VALUES  (?,?,?,?,?,?)");
+            $data->execute(array(
+                $_POST['c_fname'].' '.$_POST['c_lname'],
+                $_POST['c_address'].' '.$_POST['c_address_2'],
+                $_POST['c_state_country'],
+                $_POST['c_postal_zip'],
+                $_POST['c_order_notes'],
+                json_encode($_SESSION['cart'])
+                )
+            );
+            $_SESSION['cart'] = array();
+            echo 'Thank You for Placing order<br>
+            <a href="'.HOME_URL.'" >Go Home</a>
+            ';
+    }
+} else if(isset($_GET['addToCart']) && isset($_GET['id'])){
     $id = intval($_GET['id']);
     $_SESSION['cart'][] = $id;
 }

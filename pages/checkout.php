@@ -22,6 +22,7 @@
                 <h2 class="mb-4">Promotions </h2>
             </div>
         </div>
+        <form class="" method="post" action="index.php?action&place_order">
         <div class="row ">
             <div class="col-md-6 mb-5 mb-md-0 d-flex flex-column justify-content-stretch">
                 <h2 class="h3 mb-3 text-black">Billing Details</h2>
@@ -30,11 +31,11 @@
                     <div class="form-group row">
                         <div class="col-md-6">
                             <label for="c_fname" class="text-black">First Name <span class="text-danger">*</span></label>
-                            <input type="text" class="form-control" id="c_fname" name="c_fname">
+                            <input type="text" class="form-control" required id="c_fname" name="c_fname">
                         </div>
                         <div class="col-md-6">
                             <label for="c_lname" class="text-black">Last Name <span class="text-danger">*</span></label>
-                            <input type="text" class="form-control" id="c_lname" name="c_lname">
+                            <input type="text" class="form-control" required id="c_lname" name="c_lname">
                         </div>
                     </div>
 
@@ -43,22 +44,22 @@
                     <div class="form-group row">
                         <div class="col-md-12">
                             <label for="c_address" class="text-black">Address <span class="text-danger">*</span></label>
-                            <input type="text" class="form-control" id="c_address" name="c_address" placeholder="Street address">
+                            <input type="text" class="form-control" required id="c_address" name="c_address" placeholder="Street address">
                         </div>
                     </div>
 
                     <div class="form-group">
-                        <input type="text" class="form-control" placeholder="Apartment, suite, unit etc. (optional)">
+                        <input type="text" class="form-control" name="c_address_2" placeholder="Apartment, suite, unit etc. (optional)">
                     </div>
 
                     <div class="form-group row">
                         <div class="col-md-6">
                             <label for="c_state_country" class="text-black">State / Country <span class="text-danger">*</span></label>
-                            <input type="text" class="form-control" id="c_state_country" name="c_state_country">
+                            <input type="text" class="form-control" required id="c_state_country" name="c_state_country">
                         </div>
                         <div class="col-md-6">
                             <label for="c_postal_zip" class="text-black">Posta / Zip <span class="text-danger">*</span></label>
-                            <input type="text" class="form-control" id="c_postal_zip" name="c_postal_zip">
+                            <input type="text" class="form-control" required id="c_postal_zip" name="c_postal_zip">
                         </div>
                     </div>
 
@@ -82,22 +83,48 @@
                         <th>Total</th>
                         </thead>
                         <tbody>
-                        <tr>
-                            <td>Top Up T-Shirt <strong class="mx-2">x</strong> 1</td>
-                            <td>$250.00</td>
-                        </tr>
-                        <tr>
-                            <td>Polo Shirt <strong class="mx-2">x</strong>   1</td>
-                            <td>$100.00</td>
-                        </tr>
-                        <tr>
-                            <td class="text-black font-weight-bold"><strong>Cart Subtotal</strong></td>
-                            <td class="text-black">$350.00</td>
-                        </tr>
-                        <tr>
-                            <td class="text-black font-weight-bold"><strong>Order Total</strong></td>
-                            <td class="text-black font-weight-bold"><strong>$350.00</strong></td>
-                        </tr>
+
+                        <?php
+
+                        use DB_CONNECT\Connection;
+
+                        if(!empty($_SESSION['cart'])) {
+
+                            $db = DB_CONNECT\Connection::getInstance();
+                            $price = 0;
+                            foreach ($_SESSION['cart'] as $item) {
+
+                                $data = $db->prepare("SELECT * FROM `items` WHERE `id`=?");
+                                $data->execute(array($item));
+                                $all = $data->fetchAll(PDO::FETCH_ASSOC);
+                                foreach ($all as $i => $info) {
+                                    echo ' <tr>';
+                                    echo '  <td>' . $info['name'] . '</td>
+                            <td>' . $info['price'] . '$</td>
+                            </tr>
+                            ';
+                                    $price += $info['price'];
+                                }
+                                echo '
+                        
+                               
+                               ';
+                            }
+
+                            ?>
+
+
+                            <tr>
+                                <td class="text-black font-weight-bold"><strong>Cart Subtotal</strong></td>
+                                <td class="text-black"><?= $price ?>$</td>
+                            </tr>
+                            <tr>
+                                <td class="text-black font-weight-bold"><strong>Order Total</strong></td>
+                                <td class="text-black font-weight-bold"><strong><?= $price ?>$</strong></td>
+                            </tr>
+                            <?php
+                        }
+                        ?>
                         </tbody>
                     </table>
 
@@ -131,16 +158,23 @@
                         </div>
                       </div>
                     </div>-->
-
-                    <div class="form-group">
-                        <button id="checkoutbutton" class="btn btn-primary btn-lg py-3 btn-block" onclick="window.location='thankyou.html'">Place Order</button>
-                    </div>
-
+                    <?php
+                    if(!empty($_SESSION['cart'])) {
+                        ?>
+                        <div class="form-group">
+                            <button id="checkoutbutton" type="submit" class="btn btn-primary btn-lg py-3 btn-block">
+                                Place Order
+                            </button>
+                        </div>
+                        <?php
+                    }
+                    ?>
                 </div>
                 <!--</div>-->
                 <!-- </div>-->
 
             </div>
         </div>
+        </form>
     </div>
 </section>
