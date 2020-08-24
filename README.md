@@ -3,7 +3,7 @@ How to Install:
 - Download Xampp.
 - Install it.
 - Open Xampp and run the apache and sql.
-- download source as zip from https://github.com/Mu7ammadBinKamal/alhuda/archive/master.zip  extract it and copy it to c:/xampp/htdocs/.
+- download source as zip from https://github.com/Mu7ammadBinKamal/alhuda/archive/master.zip  extract it and copy it to c:/xampp/htdocs/Alhuda1/ (Create folder with name Alhuda1).
 - open browser, and go to http://localhost/phpmyadmin.
 - create new database with name "alhuda" and char "utf8_general_ci".
 - click on created database "alhuda", and then click on import.
